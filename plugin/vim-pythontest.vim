@@ -1,3 +1,11 @@
+" ============================================================================
+" File:        vim-pythontest.vim
+" Description: run your python / django tests
+" Maintainer:  Paulo Poiati <paulogpoiati at gmail dot com>
+" Version:     0.1.0
+" ============================================================================
+"
+
 function! s:FindEnclosing(token)
   let l:currentline = line('.')
 
