@@ -2,44 +2,43 @@
 " File:        vim-pythontest.vim
 " Description: run your python / django tests
 " Maintainer:  Paulo Poiati <paulogpoiati at gmail dot com>
-" Version:     0.1.0
+" Version:     0.2.0
 " ============================================================================
 "
 
 function! s:FindEnclosing(token)
-  let l:currentline = line('.')
+  let currentline = line('.')
 
-  while l:currentline > 1 
-    let l:match = matchlist(getline(l:currentline), '\v' . a:token . ' ([^\(]+)')
-    if !empty(l:match)
-      return l:match[1]
+  while currentline > 1 
+    let matchdata = matchlist(getline(currentline), '\v' . a:token . ' ([^\(]+)')
+    if !empty(matchdata)
+      return matchdata[1]
     endif
-    let l:currentline -= 1
+    let currentline -= 1
   endwhile
 endfunction
 
 
 function! RunPythonTest(single)
-  let l:command = "!clear && "
+  let runcommand = "!clear && "
 
   " Check if it's a Django project
   if filereadable('manage.py')
-    let l:command = l:command . "python manage.py test"
+    let runcommand = runcommand . "python manage.py test"
   else
-    let l:command = l:command . "python -m unittest"
+    let runcommand = runcommand . "python -m unittest"
   endif
 
   if match(expand('%:t'), '^test') >= 0
-    let g:testfilename = substitute(bufname('%'), getcwd() . '/', '', '')
+    let testfilename = substitute(bufname('%'), getcwd() . '/', '', '')
+    let g:testargs = substitute(substitute(testfilename, '/', '.', 'g'), '.py', '', '')
+
+    if a:single
+      let g:testargs = g:testargs . '.' . s:FindEnclosing('class') . '.' . s:FindEnclosing('def')
+    endif
   endif
 
-  let l:command = l:command . " " . substitute(substitute(g:testfilename, '/', '.', 'g'), '.py', '', '')
-
-  if a:single
-    let l:command = l:command . '.' . s:FindEnclosing('class') . '.' . s:FindEnclosing('def')
-  endif
-
-  exec(l:command)
+  exec(runcommand . ' ' . g:testargs)
 endfunction
 
 
