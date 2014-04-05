@@ -31,3 +31,7 @@ For instance, you go to the `test_models.py` buffer, run the tests, change to `m
 
 - The test file name need to start with `test`, e.g: `test_views.py`.
 - The vim mappings runs only on python buffers (FileType python).
+
+### Demonstration Video
+
+[![Demonstration Video](http://img.youtube.com/vi/noDpH3LTDkw/0.jpg)](http://www.youtube.com/watch?v=noDpH3LTDkw)
