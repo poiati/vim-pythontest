@@ -36,7 +36,7 @@ function! RunPythonTest(single)
   let l:command = l:command . " " . substitute(substitute(g:testfilename, '/', '.', 'g'), '.py', '', '')
 
   if a:single
-    let l:command = l:command . '.' . FindEnclosing('class') . '.' . FindEnclosing('def')
+    let l:command = l:command . '.' . s:FindEnclosing('class') . '.' . s:FindEnclosing('def')
   endif
 
   exec(l:command)
